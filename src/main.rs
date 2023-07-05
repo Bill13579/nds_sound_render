@@ -20,7 +20,7 @@ struct Cli {
     #[arg(short = 'o', long, value_name = "OUTPUT")]
     output_folder: Option<PathBuf>,
 
-    /// Target bit-depth for bit reduction
+    /// Target bit-depth for bit reduction (set to 0 to disable)
     /// 
     /// NDS supports 16-bit audio, but in reality it seems that the internal processing could end up reducing the output bit-depth to 10-bits.
     /// Source: https://www.reddit.com/r/emulation/comments/ru5nld/i_really_love_the_sound_of_the_nintendo_ds/
@@ -139,9 +139,11 @@ pub fn render<P: AsRef<Path>>(sound_font: Arc<SoundFont>, input_file_path: P, ou
         sample_format: hound::SampleFormat::Float,
     };
     let mut writer = hound::WavWriter::create(output_file_path, spec)?;
-    for (&l, &r) in left.iter().zip(right.iter()) {
-        let l = quantize_to_bitdepth(l, bitdepth);
-        let r = quantize_to_bitdepth(r, bitdepth);
+    for (&(mut l), &(mut r)) in left.iter().zip(right.iter()) {
+        if bitdepth != 0 {
+            l = quantize_to_bitdepth(l, bitdepth);
+            r = quantize_to_bitdepth(r, bitdepth);
+        }
         writer.write_sample(l)?;
         writer.write_sample(r)?;
     }
