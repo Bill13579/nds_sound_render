@@ -179,6 +179,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "09fc20d2ca12cb9f044c93e3bd6d32d523e6e2ec3db4f7b2939cd99026ecd3f0"
 
 [[package]]
+name = "nds_sound_render"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "glob",
+ "hound",
+ "rustysynth",
+]
+
+[[package]]
 name = "once_cell"
 version = "1.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -219,16 +229,6 @@ dependencies = [
 name = "rustysynth"
 version = "1.2.0"
 source = "git+https://github.com/Bill13579/rustysynth#ee0d8c3ec85117a04ad7cad975d78181a201af36"
-
-[[package]]
-name = "sf2sound"
-version = "0.1.0"
-dependencies = [
- "clap",
- "glob",
- "hound",
- "rustysynth",
-]
 
 [[package]]
 name = "strsim"
